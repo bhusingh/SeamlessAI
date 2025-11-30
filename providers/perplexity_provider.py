@@ -6,7 +6,7 @@ simulates another provider by re-prompting OpenAI with a different system prompt
 and temperature. Replace this with a real Perplexity adapter if/when you have an API.
 """
 
-from providers.openai import OpenAIProvider
+from providers.openai_provider import OpenAIProvider
 
 class PerplexityProvider(OpenAIProvider):
     def __init__(self):

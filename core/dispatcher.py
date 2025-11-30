@@ -4,8 +4,8 @@ Dispatcher: query all configured provider adapters concurrently.
 
 import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from providers.openai import OpenAIProvider
-from providers.perplexity import PerplexityProvider  # simulated
+from providers.openai_provider import OpenAIProvider
+from providers.perplexity_provider import PerplexityProvider  # simulated
 
 class Dispatcher:
     def __init__(self, providers=None, max_workers=4):

@@ -4,7 +4,7 @@ Aggregation utilities.
 - meta_summarize: ask OpenAI to synthesize a single coherent answer from provider outputs + context
 """
 
-from providers.openai import OpenAIProvider
+from providers.openai_provider import OpenAIProvider
 
 class Aggregator:
     def __init__(self):
@@ -26,7 +26,7 @@ class Aggregator:
         history_text = "\n".join(recent_history) if recent_history else ""
         provider_texts = "\n\n".join([f"{p['provider_name']}:\n{p['response']}" for p in provider_results])
         prompt = (
-            "You are SeamlessAI, a meta assistant that receives outputs from several providers. "
+            "You are MindSharedAI, a meta assistant that receives outputs from several providers. "
             "Your job is to synthesize a single clear, concise, and helpful response to the user's query.\n\n"
             f"User Query:\n{original_query}\n\n"
             f"Recent Conversation Context:\n{history_text}\n\n"

@@ -1,5 +1,5 @@
 """
-SeamlessAI - MVP Entry (Streamlit)
+MindSharedAI - MVP Entry (Streamlit)
 """
 
 import os
@@ -11,8 +11,8 @@ from core.aggregator import Aggregator
 
 load_dotenv()  # load OPENAI_API_KEY from .env if present
 
-st.set_page_config(page_title="SeamlessAI - MVP", layout="centered")
-st.title("SeamlessAI — Cross-LLM Context MVP")
+st.set_page_config(page_title="MindSharedAI - MVP", layout="centered")
+st.title("MindSharedAI — Cross-LLM Context MVP")
 
 # UI inputs
 user_id = st.text_input("User ID", value="user1")
@@ -58,11 +58,11 @@ if submit:
             # meta-summarize uses OpenAI internally; aggregator will call OpenAI to synthesize
             final = aggregator.meta_summarize(query, relevant_history, results)
 
-        st.text_area("SeamlessAI Response", final, height=300)
+        st.text_area("MindSharedAI Response", final, height=300)
 
         # Update the context: append user query and assistant final answer
         history.append(f"User: {query}")
-        history.append(f"SeamlessAI: {final}")
+        history.append(f"MindSharedAI: {final}")
         ctx.save_context(user_id, history)
 
         st.success("Done — context saved.")
