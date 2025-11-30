@@ -1,14 +1,18 @@
-# SeamlessAI
+# SeamlessAI (MVP)
 
-SeamlessAI is an MVP prototype for a cross-LLM assistant that maintains **persistent context** across multiple providers (GPT-5, local LLMs, etc.), making AI interaction seamless and coherent.
+SeamlessAI is a minimal prototype to maintain **seamless, persistent user context across multiple LLM providers** and synthesize a coherent response.
 
-## Features
-- Multi-LLM support (GPT-5 + local LLM)
-- Persistent user-specific context
-- Aggregation of responses
-- Easily extensible
+This MVP supports:
+- OpenAI (GPT family) as a provider
+- A simulated "Perplexity" provider (adapter pattern — replace with a real provider adapter later)
+- Per-user JSON memory
+- Aggregation: simple concat or meta-summarization (via OpenAI)
+- Streamlit UI for quick testing
 
-## Requirements
-- Python 3.10+
-- OpenAI API Key
-- Install dependencies:
+## Setup
+
+1. Create a Python venv and install:
+```bash
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
