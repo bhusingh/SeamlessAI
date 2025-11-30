@@ -18,11 +18,11 @@ Instead of isolated conversations in each LLM:
 
 ## ✨ MVP Features
 
-- ✅ **Multi-provider dispatch** — Query OpenAI (GPT-4o) + simulated Perplexity concurrently
+- ✅ **Multi-provider dispatch** — Query OpenAI (GPT-4o) + Perplexity + Claude APIs concurrently
 - ✅ **Persistent context** — Per-user memory stored in JSON (SQLite/DB coming soon)
 - ✅ **Smart aggregation** — Combine responses via concatenation or meta-summarization
-- ✅ **Adapter pattern** — Easy to add Claude, Gemini, or real Perplexity API later
-- ✅ **Streamlit UI** — Quick testing interface (web app coming in v1.1)
+- ✅ **Adapter pattern** — Easy to add more LLM providers
+- ✅ **Streamlit UI** — Quick testing interface
 
 ## 🚀 Quick Start
 
@@ -64,13 +64,14 @@ User Query
     ↓
 Context Manager (loads per-user history)
     ↓
-Dispatcher (sends to providers concurrently)
-    ├─→ OpenAI Provider (gpt-4o)
-    └─→ Perplexity Provider (simulated)
+Dispatcher (sends to provider APIs concurrently)
+    ├─→ OpenAI ChatGPT API
+    ├─→ Perplexity API
+    └─→ Anthropic Claude API
     ↓
 Aggregator (synthesizes responses)
     ├─ Option 1: Concatenate (simple)
-    └─ Option 2: Meta-summarize (OpenAI synthesizes one answer)
+    └─ Option 2: Meta-summarize (LLM synthesizes one answer)
     ↓
 Response + Context Update
 ```
@@ -81,9 +82,12 @@ Response + Context Update
 - Model: `gpt-4o` (change to `gpt-5` if available)
 - Temperature: 0.2 (factual)
 
-**Perplexity Provider** (Simulated)
-- Currently uses OpenAI with different prompts
-- Real API integration coming in v1.1
+**Perplexity Provider**
+- Uses real Perplexity API (when available)
+- Fallback to simulated for testing
+
+**Claude Provider**
+- Coming in v2.0
 
 ### Context Storage
 
@@ -92,9 +96,9 @@ User conversations stored in `user_context.json`:
 {
   "user1": [
     "User: What is machine learning?",
-    "SeamlessAI: Machine learning is...",
+    "MindSharedAI: Machine learning is...",
     "User: Tell me about neural networks.",
-    "SeamlessAI: Neural networks are..."
+    "MindSharedAI: Neural networks are..."
   ]
 }
 ```
@@ -105,7 +109,7 @@ User conversations stored in `user_context.json`:
 2. Ask a **Query** (e.g., "What is machine learning?")
 3. Select **Aggregation mode**:
    - `concatenate`: Simple side-by-side responses
-   - `meta-summarize`: OpenAI synthesizes into one coherent answer
+   - `meta-summarize`: LLM synthesizes into one coherent answer
 4. Click **Submit** and watch responses stream in
 
 **Test context persistence:**
@@ -120,7 +124,7 @@ mindshared/
 ├── providers/
 │   ├── __init__.py
 │   ├── openai_provider.py       # OpenAI adapter
-│   └── perplexity_provider.py   # Perplexity adapter (simulated)
+│   └── perplexity_provider.py   # Perplexity adapter
 ├── core/
 │   ├── __init__.py
 │   ├── context_manager.py       # Per-user memory (JSON storage)
@@ -142,35 +146,44 @@ OPENAI_API_KEY=sk-your-actual-key-here
 
 Optional settings in provider files:
 - `openai_provider.py`: Change `model="gpt-4o"` to `"gpt-5"` if available
-- `perplexity_provider.py`: Will accept real Perplexity API endpoint in v1.1
+- Add Perplexity API key when integrating real API
 
 ## 🛣️ Roadmap
 
-| Version | Timeline | Features |
-|---------|----------|----------|
-| **v1.0** | ✅ Done | Python backend MVP, Streamlit UI, multi-provider dispatch |
-| **v1.1** | Next week | Chrome extension for ChatGPT/Perplexity |
-| **v2.0** | 2-3 weeks | Real Perplexity API, Claude integration |
-| **v2.1** | Month 2 | Vector embeddings, semantic deduplication |
-| **v3.0** | Month 3 | Multi-user web app, auth, RAG capabilities |
+| Version | Status | Timeline | Focus |
+|---------|--------|----------|-------|
+| **v1.0** | ✅ Complete | Now | Python backend MVP, Streamlit UI, multi-provider dispatch |
+| **v1.1** | 🔄 Next | 1-2 weeks | Chrome extension (ChatGPT/Perplexity sidebar integration) |
+| **v1.2** | 📋 Planned | 2-3 weeks | Deploy backend to cloud (Railway/Render) |
+| **v2.0** | 📋 Planned | Month 1-2 | Real Perplexity API, Claude full integration |
+| **v2.1** | 📋 Planned | Month 2 | Vector embeddings, semantic deduplication, smarter context |
+| **v3.0** | 📋 Later | Q2 2026 | Multi-user SaaS, auth, hosting (if needed) |
+
+### Why this roadmap?
+
+- **v1.1 Chrome extension** is where the real UX magic happens—users won't leave ChatGPT
+- **v1.2 Cloud deployment** makes the extension actually useful (no localhost requirement)
+- **v2.x improvements** focus on AI quality (better context, real APIs)
+- **v3.0 SaaS** only if we want to commercialize (optional)
 
 ## 🚨 Known Limitations
 
 - **Perplexity adapter is simulated** — Uses OpenAI with different prompts until real API is available
 - **JSON storage** — Suitable for testing; will migrate to SQLite/PostgreSQL for production
 - **No auth** — Single-user mode; multi-user coming in v3.0
-- **UI is Streamlit** — Desktop app/web UI coming in v1.1
+- **Streamlit UI** — Good for testing; real UX will be Chrome extension
 
 ## 🤝 Contributing
 
-We'd love contributions! Areas to help:
+We'd love contributions! Priority areas:
 
-- ✅ Real Perplexity API adapter
-- ✅ Claude/Gemini/Ollama providers
-- ✅ Better context summarization (embeddings)
-- ✅ Database backend (SQLite/PostgreSQL)
-- ✅ Web UI (React/Next.js)
-- ✅ Chrome extension integration
+- ✅ **v1.1:** Chrome extension integration
+- ✅ **v1.1:** Real Perplexity API adapter
+- ✅ **v2.0:** Claude provider adapter
+- ✅ **v2.0:** Gemini provider adapter
+- ✅ **v2.1:** Vector embeddings for context
+- ✅ **General:** Database backend (SQLite/PostgreSQL)
+- ✅ **General:** Better error handling & logging
 
 ## 📜 License
 
@@ -187,4 +200,4 @@ Built by [@bhusingh](https://github.com/bhusingh)
 
 ---
 
-**Status:** Early MVP — actively developing. Star ⭐ to follow progress!
+**Status:** Early MVP in active development. Star ⭐ to follow progress!
