@@ -1,0 +1,6 @@
+openai
+langchain
+transformers
+sentencepiece
+streamlit
+torch
