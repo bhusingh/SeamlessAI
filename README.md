@@ -32,24 +32,39 @@ Instead of isolated conversations in each LLM:
 
 ### Install & Run
 
+#### Clone repo
 ```bash
-# Clone repo
 git clone https://github.com/bhusingh/mindshared.git
 cd mindshared
+```
 
-# Create virtual environment
+#### Create virtual environment
+```bash
 python3 -m venv .venv
+```
+
+#### Activate virtual environment
+```bash
 source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+```
 
-# Install dependencies
+#### Install all dependencies
+```bash
 pip install -r requirements.txt
+```
 
-# Set your OpenAI API key
+#### Set your OpenAI API key
+```bash
 cp .env.example .env
-# Edit .env and add your OpenAI API key
-nano .env
+```
 
-# Run the app
+#### Edit .env and add your OpenAI API key
+```bash
+nano .env
+```
+
+#### Run the app
+```bash
 streamlit run main.py
 ```
 
@@ -59,7 +74,7 @@ Open your browser to `http://localhost:8501` 🎉
 
 ### Architecture
 
-```
+```text
 User Query
     ↓
 Context Manager (loads per-user history)
@@ -118,7 +133,7 @@ User conversations stored in `user_context.json`:
 
 ## 📂 Project Structure
 
-```
+```text
 mindshared/
 ├── main.py                      # Streamlit UI entry point
 ├── providers/
@@ -138,7 +153,7 @@ mindshared/
 
 ## 🔧 Configuration
 
-Edit `.env`:
+#### Edit `.env`:
 
 ```bash
 OPENAI_API_KEY=sk-your-actual-key-here
